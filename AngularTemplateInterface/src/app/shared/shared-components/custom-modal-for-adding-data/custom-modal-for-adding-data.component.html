@@ -1,0 +1,33 @@
+<div class="modal_header">
+  <h2 mat-dialog-title>{{heading}}</h2>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close><mat-icon class="icon">close</mat-icon></button>
+  </mat-dialog-actions>
+</div>
+<mat-dialog-content class="mat-typography">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="form_creater">
+    <ng-container *ngFor="let field of formFields">
+      <mat-form-field *ngIf="field.type === 'text' || field.type === 'number'">
+        <input matInput placeholder="{{field.label}}" type="{{field.type}}" name="{{field.property}}" ngModel [required]="field.validation.required"/>
+      </mat-form-field>
+      <mat-form-field *ngIf="field.type === 'textarea'">
+        <textarea matInput name="{{field.property}}" ngModel placeholder="{{field.label}}" [required]="field.validation.required"></textarea>
+      </mat-form-field>
+      <mat-form-field *ngIf="field.type === 'select'">
+        <mat-select name="{{field.property}}" ngModel placeholder="{{field.label}}" [required]="field.validation.required">-->
+          <mat-option *ngFor="let option of field.options" [value]="option.id">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-container *ngIf="field.type === 'file'">
+        <input #file [multiple]="true" [hidden]="true" style="display: none" type="file" name="{{field.property}}" onclick="this.value=null" ngModel (change)="onFileChange($event)" [accept]="'image/*'" [required]="field.validation.required"/>
+        <button mat-flat-button color="primary" type="button" (click)="file.click()">Choose Images</button>
+      </ng-container>
+    </ng-container>
+    <app-custom-image-grid-for-modal/>
+    <app-custom-spinner [isEnable]="spinnerService.spinnerFlag" [className]="'admin'"/>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</mat-dialog-content>
+

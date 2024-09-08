@@ -1,0 +1,8 @@
+<div [formGroup]="formGroup">
+  <input [formControlName]="controlName"
+         [ngClass]="className"
+         [type]="type" [placeholder]="placeholder">
+  <span [class]="'error-message'" *ngIf="this.errorMessage != null">
+   {{this.errorMessage}}
+  </span>
+</div>
